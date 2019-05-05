@@ -10,12 +10,13 @@ pipeline {
     timestamps()
   }
 
-  stages {    
-  stage("Create new tag") {
+  stages {
+ stage("Create new tag") {
          when {
                expression {env.BRANCH_NAME == 'master'}
             }                     
-            steps
+            steps {
+             sshagent (credentials: ['b43ce314-81c7-41ae-9ea6-4d30cdbaed82'])                        
                 {
                 script {
                    
@@ -35,7 +36,7 @@ pipeline {
                 }
               }
                 
-        }
-  
+            }
+        } 
   }
 }

@@ -10,13 +10,7 @@ pipeline {
     timestamps()
   }
 
-  stages {
-    stage('PHPUnit Test') {
-      steps {
-        echo 'Running PHPUnit...'
-        sh '/bin/phpunit ${WORKSPACE}/src'
-      }
-    }
+  stages {    
   stage("Create new tag") {
          when {
                expression {env.BRANCH_NAME == 'master'}

@@ -21,7 +21,7 @@ pipeline {
          when {
                expression {env.BRANCH_NAME == 'master'}
             }                     
-            steps {
+            steps
                 {
                 script {
                    
@@ -41,7 +41,6 @@ pipeline {
                 }
               }
                 
-            }
         }
   
   }

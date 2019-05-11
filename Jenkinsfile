@@ -6,11 +6,15 @@ pipeline {
     }
   }
 
-  options {
-    timestamps()
-  }
+
 
   stages {
+//    stage('PHPUnit Test') {
+//      steps {
+//       echo 'Running PHPUnit...'
+//       sh '/bin/phpunit ${WORKSPACE}/src'
+//     }
+//   }
  stage("Create new tag") {
          when {
                expression {env.BRANCH_NAME == 'master'}
@@ -19,12 +23,12 @@ pipeline {
              sshagent (credentials: ['b43ce314-81c7-41ae-9ea6-4d30cdbaed82'])                        
                 {
                 script {
-                        sh "git config --add remote.origin.fetch +refs/heads/master:refs/remotes/origin/master"
-                        sh "git fetch"                   
+                   	sh "git config --add remote.origin.fetch +refs/heads/master:refs/remotes/origin/master"
+			sh "git fetch"
                         def tag = sh(returnStdout: true, script: "git tag | tail -1").trim()
                         println tag
-                        def semVerLib = load 'SemVer.groovy'
-                        def version = semVerLib.getTagversion(tag)
+//                        def semVerLib = load 'SemVer.groovy'
+                        def version = getTagversion(tag)
                         println version
                         sh """
                             git tag -a "v${version}" \
@@ -38,6 +42,7 @@ pipeline {
               }
                 
             }
-        } 
+        }
+ 
   }
 }
